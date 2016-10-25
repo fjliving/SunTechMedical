@@ -34,15 +34,16 @@
  *
  * Main function that starts the application (through miniproject.cpp)
  * The main function initialize the following objects:
- * -# CCDeviceIO Device I/O Class (through deviceio.h)
- * -# CCLed LED Class (through led.h)
- * -# CCPotentiometer Potentiometer Class (through potentiometer.h)
- * -# CCSerial USART Serial Class (through serial.h)
- * -# CCUI User Interface Class (through ui.h)
+ * -# CDeviceIO Device I/O Class (through deviceio.h)
+ * -# CLed LED Class (through led.h)
+ * -# CPotentiometer Potentiometer Class (through potentiometer.h)
+ * -# CSerial USART Serial Class (through serial.h)
+ * -# CUI User Interface Class (through ui.h)
  * \n \n The Algorithm waits for and Hardware Interrupt and then performs a task based on the the connected pins found in the Firmware Description
  *
  * \par Device Target
- * AVR XMEGAB1
+ * AVR XMEGAB1 
+ * \n XMEGA-B1 Xplained Getting Started Guide http://www.atmel.com/Images/doc8439.pdf
  */
 
 #ifndef MINIPROJECT_H_
