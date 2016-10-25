@@ -1,58 +1,35 @@
 /**
- * \file
- *
- * \brief Empty user application template
- *
+ * \file miniproject.cpp
+ * \brief MiniProject Main Function Source
  */
 
-/**
- * \mainpage User Application template doxygen documentation
- *
- * \par Empty user application template
- *
- * Bare minimum empty user application template
- *
- * \par Content
- *
- * -# Include the ASF header files (through asf.h)
- * -# "Insert system clock initialization code here" comment
- * -# Minimal main function that starts with a call to board_init()
- * -# "Insert application code here" comment
- *
- */
-
-/*
- * Include header files for all drivers that have been imported from
- * Atmel Software Framework (ASF).
- */
-/*
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
- */
 #include <asf.h>
 #include <avr/io.h>
 #include <avr/delay.h>
 
 #include "miniproject.h"
 
-
-
 static bool my_flag_autorize_cdc_transfert = false;
 bool pin_changed = false;
 
-void task(void);
 
-CPotentiometer pot;
-CLed led0;
-CLed led1;
-CDeviceIO pA0;
-CDeviceIO pA1;
-CDeviceIO pA3;
-CDeviceIO pA5;
-CDeviceIO pA6;
-CDeviceIO pA7;
-CUI ui;
-CSerial serial;
+CPotentiometer pot; //!< Potentiometer Object
+CLed led0;			//!< LED0 Object
+CLed led1;			//!< LED1 Object
+CDeviceIO pA0;		//!< PORTA PIN0 Object
+CDeviceIO pA1;		//!< PORTA PIN1 Object
+CDeviceIO pA3;		//!< PORTA PIN3 Object
+CDeviceIO pA5;		//!< PORTA PIN5 Object
+CDeviceIO pA6;		//!< PORTA PIN6 Object
+CDeviceIO pA7;		//!< PORTA PIN7 Object
+CUI ui;				//!< User Interface Object
+CSerial serial;		//!< Serial Object
 
+
+/**
+ * \brief Miniproject Main Function  
+ * \return 0 Always
+ */
 int main(void)
 {	
 	/* Set System Clock to 24 MHz, and USB Clock to 48 MHz */
@@ -101,9 +78,12 @@ int main(void)
 	{
 		task();
 	}
+	return 0;
 }
 
-
+/**
+ * \brief Main Algorithm executed after an I/O Interrupt
+ */
 void task(void)
 {
 	if(pin_changed){
@@ -136,12 +116,12 @@ void task(void)
 			
 		
 		/* When PA6 is connected to ground, “SunTech ” will be continually sent out the serial port */ 
-		if(!pA6.isHigh()){
+		if(!pA6.isConnected()){
 			ui.sendText("SunTech ");
 			pin_changed = true;
 		}
 		/* When PA7 is connected to Vcc, “Medical ” will be continually sent out the serial port */ 
-		else if(pA7.isHigh()){
+		else if(pA7.isConnected()){
 			ui.sendText("Medical ");
 			pin_changed = true;
 		}
@@ -149,19 +129,22 @@ void task(void)
 			ui.clearUI();
 		}
 	}
-	
 	_delay_ms(200);
-	
-	
 }
 
-
+/**
+* \brief USB Interrupt Callback when Enabled
+* \return true Always
+*/
 bool my_callback_cdc_enable(void)
 {
 	my_flag_autorize_cdc_transfert = true;
 	return true;
 }
 
+/**
+* \brief USB Interrupt Callback when Disable
+*/
 void my_callback_cdc_disable(void)
 {
 	my_flag_autorize_cdc_transfert = false;

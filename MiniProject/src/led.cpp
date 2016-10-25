@@ -1,23 +1,31 @@
-/*
- * led.cpp
- *
+/**
+ * \file led.cpp
+ * \brief LED Class Object Source
  * Created: 10/13/2016 11:16:37 AM
- *  Author: Fred
+ * Author: Fred
  */
 
 #include "led.h"
 
-
-#define CPU_HZ 24000000
+#define CPU_HZ 24000000 //!< CPU Clock Rate
 
 extern CLed led0;
 extern CLed led1;
 
+/**
+ * \brief Default Constructor
+ */
 CLed::CLed(void){
 	freq_hz      = 0;
 	dc           = 0;
 }
 
+/**
+ * \brief Initialize the LED Device
+ * \param _device_port	LED Port address          
+ * \param _device_pinbm  LED Pin bit mask
+ * \param _device_timer  Timer associated with LED Device 
+ */
 void CLed::led_init(PORT_t* _device_port, uint8_t _device_pinbm, uint8_t _device_timer){
 	device_port  = _device_port;
 	device_pinbm = _device_pinbm;
@@ -37,6 +45,11 @@ void CLed::led_init(PORT_t* _device_port, uint8_t _device_pinbm, uint8_t _device
 	led_Off();
 }
 
+/**
+ * \brief Set the Frequency and Duty Cycle of the LED
+ * \param _freq_hz	blinking frequency 1 - 100 Hz          
+ * \param _dc blinking duty-cycle 1 - 100 %
+ */
 void CLed::blink(uint8_t _freq_hz, uint8_t _dc){
 	/* Disable Timer interrupt */
 	disableInterrupts();
@@ -52,6 +65,9 @@ void CLed::blink(uint8_t _freq_hz, uint8_t _dc){
 	}
 }
 
+/**
+ * \brief Disable the LED Interrupts
+ */
 void CLed::disableInterrupts(void){
 	/* Make sure LED is off */
 	led_Off();
@@ -67,34 +83,55 @@ void CLed::disableInterrupts(void){
 	}
 }
 
-
+/**
+ * \brief Turns on the LED
+ */
 void CLed::led_On(void){
 	/* Turn On Led Pin */
 	device_port->OUT &=  ~device_pinbm; // Pin goes low
 }
 
+/**
+ * \brief Turns off the LED
+ */
 void CLed::led_Off(void){
 	/* Turn Off Led Pin */
 	device_port->OUT |=  device_pinbm; // Pin goes high
 }
 
-
+/**
+ * \brief Interrupt Service Routine on Compare Match to turn off LED using Timer 0
+ */
 void CLed::Timer0CompareISR(void){
 	led0.led_Off();
 }
 
+/**
+ * \brief Interrupt Service Routine on overflow to turn on LED using Timer 0
+ */
 void CLed::Timer0OvfISR(void){
 	led0.led_On();
 }
 
+/**
+ * \brief Interrupt Service Routine on Compare Match to turn off LED using Timer 1
+ */
 void CLed::Timer1CompareISR(void){
 	led1.led_Off();
 }
 
+/**
+ * \brief Interrupt Service Routine on overflow to turn on LED using Timer 0
+ */
 void CLed::Timer1OvfISR(void){
 	led1.led_On();
 }
 
+/**
+ * \brief Calculates the clock divider to set the Timer Period
+ * \param dividor	Clock Divider          
+ * \return Clock Selection
+ */
 TC_CLKSEL_t CLed::calcDivider(uint16_t& dividor){
 	uint16_t smallest_div = CPU_HZ / freq_hz / 0xFFFF;
 	
@@ -122,7 +159,12 @@ TC_CLKSEL_t CLed::calcDivider(uint16_t& dividor){
 	}
 }
 
-
+/**
+ * \brief Initialize the LED Timer
+ * \param timer_type	Timer Selection          
+ * \return 0 if the timer was configured successfully
+ * \return 1 timer configuration error
+ */
 uint8_t CLed::initTimer(uint8_t _timer_type){
 	uint8_t retval = 0x00;
 	timer_type = _timer_type;

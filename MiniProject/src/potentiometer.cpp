@@ -1,8 +1,8 @@
-/*
- * potentiometer.cpp
- *
+/**
+ * \file potentiometer.cpp
+ * \brief Potentiometer Class Object Source
  * Created: 10/13/2016 5:29:54 PM
- *  Author: Fred
+ * Author: Fred
  */ 
 
 #include "potentiometer.h"
@@ -11,13 +11,24 @@
 
 uint16_t CPotentiometer::value;
 
+/**
+ * \brief Default Constructor
+ */
 CPotentiometer::CPotentiometer(void){
 	value = 0;
 }
 
+/**
+ * \brief Default DeConstructor
+ */
 CPotentiometer::~CPotentiometer(void){	
 }
 
+/**
+ * \brief Reads the production time ADC Calibration values from memory
+ * \param index	ROM Address Index      
+ * \return the ADC Calibration values
+ */
 uint8_t CPotentiometer::ReadCalibrationByte(uint8_t index){
 		uint8_t result;
 		NVM_CMD = NVM_CMD_READ_CALIB_ROW_gc;
@@ -27,6 +38,9 @@ uint8_t CPotentiometer::ReadCalibrationByte(uint8_t index){
 		return(result);
 }
 
+/**
+ * \brief Initialize the Potentiometer
+ */
 void CPotentiometer::potentiometer_init(void){
 	
 	// ADC Clock was disabled initially in sysclk_init()
@@ -78,14 +92,25 @@ void CPotentiometer::potentiometer_init(void){
 	ADCB.CTRLA = ADC_ENABLE_bm; 
 }
 
+/**
+ * \brief Get the 12bit ADC Value        
+ * \return raw ADC value
+ */
 uint16_t CPotentiometer::getValue(void){
 	return value;
 }
 
+/**
+ * \brief Get the 12bit ADC Value        
+ * \return ADC value as a percentange (0 - 100)
+ */
 uint8_t CPotentiometer::getPercentage(void){
 	return (value*100)/0xFFF; 
 }
 
+/**
+ * \brief Interrupt Service Routine for ADC Conversion
+ */
 void CPotentiometer::ConversionCompleteISR(void){
 	value = ADCB.CH0.RES;
 }

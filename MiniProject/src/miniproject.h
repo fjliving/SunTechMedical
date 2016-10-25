@@ -1,41 +1,54 @@
 /**
- * miniproject.h
+ * \file miniproject.h
+ * \brief  MiniProject Main Function Header
  *
  * Created: 10/23/2016 9:39:23 AM
- * \author Fred
- *
- * \version $Revision: 1.5 $
- *
- * \brief Suntech MiniProject using AVR XMEGAB1
- * 
- * Contact: Fred.Livingston@gmail.com 
+ * Author Fred
  */ 
 
+/**
+ * \mainpage SunTech Medical Mini Project Documentation
+ * \version 1.0 (alpha)
+ * \author Fred Livingston (Fred.Livingston@gmail.com)
+ *
+ * \par Source Code
+ *
+ * https://github.com/fjliving/SunTechMedical
+ *
+ * \par Firmware Description
+ * -# LED0 will be off when PA0 is unconnected
+ * -# LED0 will blink @ 1HZ (50% duty cycle) when PA0 and PA3 are connected
+ * -# LED0 will blink @ 2HZ (75% duty cycle) when PA0 and PA1 are connected
+ * -# LED1 will be off when PA5 is unconnected
+ * -# When PA5 is connected to PA3, LED1 will blink at a rate from 1HZ to 100HZ depending on the setting of the variable resistor located next to the LEDs
+ * -# When PA6 is connected to ground, 'SunTech ' will be continually sent out the serial port and via USB. "SunTech " will also appear on the LCD display
+ * -# When PA7 is connected to Vcc, 'Medical ' will be continually sent out the serial port and via USB. "SunTech " will also appear on the LCD display
+ *
+ * \par Virtual COM Settings
+ *  BAUDRATE	115200
+ *  STOPBITS	1
+ *  PARITY      NONE
+ *  DATABITS    8
+ * 
+ * \par README
+ *
+ * Main function that starts the application (through miniproject.cpp)
+ * The main function uses the following objects:
+ * -# CCDeviceIO Device I/O Class (through deviceio.h)
+ * -# CCLed LED Class (through led.h)
+ * -# CCPotentiometer Potentiometer Class (through potentiometer.h)
+ * -# CCSerial USART Serial Class (through serial.h)
+ * -# CCUI User Interface Class (through ui.h)
+ *
+ * \par Device Target
+ * AVR XMEGAB1
+ */
 
 #ifndef MINIPROJECT_H_
 #define MINIPROJECT_H_
 
-
 #undef VERSION
-#define VERSION “Version 1.0”
-
-/**************************************************
-* Version Module - SunTech MiniProject
-*
-* Copyright 2016 Frederick J Livingston
-* All Rights Reserved
-*
-* The information contained herein is confidential
-* property of Company. The use, copying, transfer or 
-* disclosure of such information is prohibited except
-* by express written agreement with Company.
-*
-* 10/23/2016 - Version 1.0 - ROM ID 78-130
-*		Initial Beta release
-**/		
-
-
-
+#define VERSION “Version 1.0 (alpha)”
 
 #include "potentiometer.h"
 #include "led.h"
@@ -43,16 +56,17 @@
 #include "ui.h"
 #include "serial.h"
 
-
 /*! \name GPIO Connections of LEDs
  */
 //! @{
-#define LED0_GPIO_PORT PORTB
-#define LED0_GPIO_PIN  PIN4_bm
-#define LED0_TIMER     0   
-#define LED1_GPIO_PORT PORTB
-#define LED1_GPIO_PIN  PIN5_bm
-#define LED1_TIMER     1   
+#define LED0_GPIO_PORT PORTB		//!< Led0 Port on XPlained board.
+#define LED0_GPIO_PIN  PIN4_bm		//!< Led0 Pin Bit mask on XPlained board.
+#define LED0_TIMER     0			//!< Led0 Timer Device
+#define LED1_GPIO_PORT PORTB		//!< Led1 Port on XPlained board.
+#define LED1_GPIO_PIN  PIN5_bm		//!< Led1 Pin Bit mask on XPlained board.
+#define LED1_TIMER     1			//!< Led1 Timer Device
 
+/// Function Prototypes Declaration
+void task(void);
 
 #endif /* MINIPROJECT_H_ */

@@ -1,23 +1,27 @@
-/*
- * serial.cpp
- *
+/**
+ * \file serial.cpp
+ * \brief USART Serial Device Object Source
  * Created: 10/23/2016 12:43:08 PM
- *  Author: Fred
+ * Author: Fred
  */ 
 
 #include "serial.h"
 
-/* Default Constructor */
+/**
+ * \brief Default Constructor
+ */
 CSerial::CSerial(void){
-	
 }
 
-/* Default DeConstructor */
+/**
+ * \brief Default DeConstructor
+ */
 CSerial::~CSerial(void){
-	
 }
 
-/* Initialize the Serial Device */
+/**
+ * \brief Initialize the Serial Device
+ */
 void CSerial::serial_init(void){
 	
 	//Enable receive and transmit
@@ -47,7 +51,10 @@ void CSerial::serial_init(void){
 	PORTC_DIRCLR = PIN2_bm;
 }
 
-// Send one char to Serial Device
+/**
+ * \brief Send one char to Serial Device
+ * \param c	character to send        
+ */
 void CSerial::sendChar(char c){
 	//Wait until DATA buffer is empty
 	while( !(USARTC0_STATUS & USART_DREIF_bm) ); 
@@ -55,7 +62,10 @@ void CSerial::sendChar(char c){
 	USARTC0_DATA = c;
 }
 
-// Send string to Serial Device
+/**
+ * \brief Send string to Serial Device
+ * \param text	character string to send        
+ */
 void CSerial::sendString(char *text){
 	while(*text)
 		sendChar(*text++);

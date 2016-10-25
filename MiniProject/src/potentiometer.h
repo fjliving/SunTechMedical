@@ -1,8 +1,9 @@
-/*
- * potentiometer.h
+/**
+ * \file potentiometer.h
+ * \brief Potentiometer Class Object Headers
  *
  * Created: 10/18/2016 9:53:09 PM
- *  Author: Fred
+ * Author: Fred
  */ 
 
 
@@ -17,6 +18,10 @@
 	__attribute__ ((signal, __INTR_ATTRS))
 	
 
+/**
+ * \class CPotentiometer
+ * \brief Potentiometer Class
+ */ 
 class CPotentiometer{
 	public:
 	CPotentiometer(void);

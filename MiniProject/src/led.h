@@ -1,8 +1,8 @@
-/*
- * led.h
- *
+/**
+ * \file led.h
+ * \brief LED Class Object Headers
  * Created: 10/13/2016 11:17:08 AM
- *  Author: Fred
+ * Author: Fred
  */ 
 
 #ifndef LED_H_
@@ -15,6 +15,10 @@
 	static void name(void) asm(__STRINGIFY(vector)) \
 	__attribute__ ((signal, __INTR_ATTRS))
 
+/**
+ * \class CLed
+ * \brief LED Class
+ */ 
 class CLed{
 
 	public:

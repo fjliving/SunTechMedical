@@ -1,21 +1,33 @@
-/*
- * deviceio.cpp
+/**
+ * \file deviceio.cpp
+ * \brief Contains Device I/O Object Class
  *
  * Created: 10/19/2016 3:00:09 AM
- *  Author: Fred
+ * Author: Fred
  */ 
 
 #include "deviceio.h"
 
 extern bool pin_changed;
 
+/**
+ * \brief Default Constructor
+ */
 CDeviceIO::CDeviceIO(void){	
-	connected = false;
 }
 
+/**
+ * \brief Default DeConstructor
+ */
 CDeviceIO::~CDeviceIO(void){
 }
 
+/**
+ * \brief Initialize the I/O Device
+ * \param _device_pin	I/O Pin address          
+ * \param device_sense  Interrupt edge type
+ * \param device_conf  I/O Configuration
+ */
 void CDeviceIO::device_init(uint8_t _device_pin, PORT_ISC_t device_sense, PORT_OPC_t device_conf){
 	
 	device_pin = _device_pin;
@@ -82,17 +94,11 @@ void CDeviceIO::device_init(uint8_t _device_pin, PORT_ISC_t device_sense, PORT_O
 	PORTA.INTCTRL |= PORT_INT0LVL_HI_gc;	
 }
 
-bool CDeviceIO::isHigh(void){
-	bool retval;
-	 
-    if((PORTA.IN & device_pin_bm))    // if connected to VCC
-        retval = true;
-     else                       
-        retval = false;
-		
-	return retval;
-}
-
+/**
+ * \brief Determine if I/O Pin is connected
+ * \return true if the the I/O pin is connected to jumper or VCC
+ * \return false if the I/O pin is floating or unconnected
+ */
 bool CDeviceIO::isConnected(void){
 	bool retval;
 	
@@ -104,10 +110,9 @@ bool CDeviceIO::isConnected(void){
 	return retval;
 }
 
-void CDeviceIO::toggleConnected(void){
-	connected = (connected)?!connected:connected;
-}
-
+/**
+ * \brief Interrupt Service routine for I/O Device
+ */
 void CDeviceIO::PinChangedISR(void){
 	 pin_changed = true;
 }

@@ -1,10 +1,10 @@
-/*
- * ui.h
+/**
+ * \file ui.h
+ * \brief User Interface Class Object Header
  *
  * Created: 10/23/2016 3:47:17 AM
- *  Author: Fred
+ * Author: Fred
  */ 
-
 
 #ifndef UI_H_
 #define UI_H_
@@ -13,12 +13,13 @@
 #include <avr/io.h>
 #include "serial.h"
 
-//! The maximum text length visible text string on the LCD
-#define LCD_DISPLAY_SIZE   7
+#define LCD_DISPLAY_SIZE   7 //!< The maximum text length visible text string on the LCD
+#define LCD_CONTRAST 60		 //!< LCD Contrast
 
-//! LCD Contrast
-#define LCD_CONTRAST 60
-
+/**
+ * \class CUI ui.h "ui.h"
+ * \brief User Interface Class
+ */ 
 class CUI{
 
 	public:
