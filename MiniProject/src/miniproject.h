@@ -33,12 +33,13 @@
  * \par README
  *
  * Main function that starts the application (through miniproject.cpp)
- * The main function uses the following objects:
+ * The main function initialize the following objects:
  * -# CCDeviceIO Device I/O Class (through deviceio.h)
  * -# CCLed LED Class (through led.h)
  * -# CCPotentiometer Potentiometer Class (through potentiometer.h)
  * -# CCSerial USART Serial Class (through serial.h)
  * -# CCUI User Interface Class (through ui.h)
+ * \n \n The Algorithm waits for and Hardware Interrupt and then performs a task based on the the connected pins found in the Firmware Description
  *
  * \par Device Target
  * AVR XMEGAB1
